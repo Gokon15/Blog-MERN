@@ -23,13 +23,13 @@ export const register = async (req, res) => {
             password: hash,
         })
 
-        /*const token = jwt.sign(
+        const token = jwt.sign(
             {
                 id: newUser._id,
             },
-            process.env.JWT_SECRET,
+            'secret123',
             { expiresIn: '30d' },
-        )*/
+        )
 
         await newUser.save()
 
