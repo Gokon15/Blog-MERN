@@ -1,4 +1,3 @@
-/*
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -20,6 +19,7 @@ import {
     createComment,
     getPostComments,
 } from '../redux/features/comment/commentSlice'
+
 import { CommentItem } from '../components/CommentItem'
 
 export const PostPage = () => {
@@ -178,4 +178,3 @@ export const PostPage = () => {
         </div>
     )
 }
-*/

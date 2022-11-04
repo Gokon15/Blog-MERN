@@ -16,7 +16,7 @@ export const PostItem = ({ post }) => {
             <div className='flex flex-col basis-1/4 flex-grow'>
                 <div
                     className={
-                        post.imgUrl ? 'flex rouded-sm h-80' : 'flex rounded-sm'
+                        post.imgUrl ? 'flex rounded-sm h-80' : 'flex rounded-sm'
                     }
                 >
                     {post.imgUrl && (
