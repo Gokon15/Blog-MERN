@@ -17,7 +17,8 @@ app.use(express.json())
 // Routes
 // http://localhost:3002
 app.use('/api/auth', authRoute)
-/*app.use('/api/posts', postRoute)
+app.use('/api/posts', postRoute)
+/*
 app.use('/api/comments', commentRoute)*/
 
 async function start() {
