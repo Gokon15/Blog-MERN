@@ -1,8 +1,8 @@
 import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {useEffect} from 'react'
+import {useState} from 'react'
+import {useCallback} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import {
     AiFillEye,
     AiOutlineMessage,
@@ -10,24 +10,23 @@ import {
     AiFillDelete,
 } from 'react-icons/ai'
 import Moment from 'react-moment'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import {Link, useNavigate, useParams} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 import axios from '../utils/axios'
-import { removePost } from '../redux/features/post/postSlice'
+import {removePost} from '../redux/features/post/postSlice'
 import {
     createComment,
     getPostComments,
 } from '../redux/features/comment/commentSlice'
-
-import { CommentItem } from '../components/CommentItem'
+import {CommentItem} from '../components/CommentItem'
 
 export const PostPage = () => {
     const [post, setPost] = useState(null)
     const [comment, setComment] = useState('')
 
-    const { user } = useSelector((state) => state.auth)
-    const { comments } = useSelector((state) => state.comment)
+    const {user} = useSelector((state) => state.auth)
+    const {comments} = useSelector((state) => state.comment)
     const navigate = useNavigate()
     const params = useParams()
     const dispatch = useDispatch()
@@ -45,7 +44,7 @@ export const PostPage = () => {
     const handleSubmit = () => {
         try {
             const postId = params.id
-            dispatch(createComment({ postId, comment }))
+            dispatch(createComment({postId, comment}))
             setComment('')
         } catch (error) {
             console.log(error)
@@ -61,7 +60,7 @@ export const PostPage = () => {
     }, [params.id, dispatch])
 
     const fetchPost = useCallback(async () => {
-        const { data } = await axios.get(`/posts/${params.id}`)
+        const {data} = await axios.get(`/posts/${params.id}`)
         setPost(data)
     }, [params.id])
 
@@ -113,7 +112,7 @@ export const PostPage = () => {
                             {post.username}
                         </div>
                         <div className='text-xs text-white opacity-50'>
-                            <Moment date={post.createdAt} format='D MMM YYYY' />
+                            <Moment date={post.createdAt} format='D MMM YYYY'/>
                         </div>
                     </div>
                     <div className='text-white text-xl'>{post.title}</div>
@@ -124,10 +123,10 @@ export const PostPage = () => {
                     <div className='flex gap-3 items-center mt-2 justify-between'>
                         <div className='flex gap-3 mt-4'>
                             <button className='flex items-center justify-center gap-2 text-xs text-white opacity-50'>
-                                <AiFillEye /> <span>{post.views}</span>
+                                <AiFillEye/> <span>{post.views}</span>
                             </button>
                             <button className='flex items-center justify-center gap-2 text-xs text-white opacity-50'>
-                                <AiOutlineMessage />{' '}
+                                <AiOutlineMessage/>{' '}
                                 <span>{post.comments?.length || 0} </span>
                             </button>
                         </div>
@@ -136,14 +135,14 @@ export const PostPage = () => {
                             <div className='flex gap-3 mt-4'>
                                 <button className='flex items-center justify-center gap-2 text-white opacity-50'>
                                     <Link to={`/${params.id}/edit`}>
-                                        <AiTwotoneEdit />
+                                        <AiTwotoneEdit/>
                                     </Link>
                                 </button>
                                 <button
                                     onClick={removePostHandler}
                                     className='flex items-center justify-center gap-2  text-white opacity-50'
                                 >
-                                    <AiFillDelete />
+                                    <AiFillDelete/>
                                 </button>
                             </div>
                         )}
@@ -171,7 +170,7 @@ export const PostPage = () => {
                     </form>
 
                     {comments?.map((cmt) => (
-                        <CommentItem key={cmt._id} cmt={cmt} />
+                        <CommentItem key={cmt._id} cmt={cmt}/>
                     ))}
                 </div>
             </div>
