@@ -50,7 +50,7 @@ export const PostPage = () => {
             console.log(error)
         }
     }
-
+    
     const fetchComments = useCallback(async () => {
         try {
             dispatch(getPostComments(params.id))
