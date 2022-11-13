@@ -7,6 +7,7 @@ import { updatePost } from '../redux/features/post/postSlice'
 import axios from '../utils/axios'
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import {useForm} from "react-hook-form";
 
 export const EditPostPage = () => {
     const [title, setTitle] = useState('')
@@ -53,10 +54,16 @@ export const EditPostPage = () => {
         fetchPost()
     }, [fetchPost])
 
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+    } = useForm({});
+
     return (
         <form
             className='w-1/3 mx-auto py-10'
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit(submitHandler)}
         >
             <Button variant="contained" component="label">
                  Change image
@@ -82,17 +89,6 @@ export const EditPostPage = () => {
                     </Button>
                 </div>
             )}
-            {/*<label className='text-gray-300 py-2 bg-gray-600 text-xs mt-2 flex items-center justify-center border-2 border-dotted cursor-pointer'>
-                Прикрепить изорбажение:
-                <input
-                    type='file'
-                    className='hidden'
-                    onChange={(e) => {
-                        setNewImage(e.target.files[0])
-                        setOldImage('')
-                    }}
-                />
-            </label>*/}
             <div className='flex object-cover py-2'>
 
                 {oldImage && (
@@ -114,23 +110,15 @@ export const EditPostPage = () => {
                     variant="standard"
                     placeholder="Post title"
                     label="Post title"
+                    {...register("title", {required: "This field is required, please enter title"})}
+                    error={Boolean(errors.title?.message)}
+                    helperText={errors.title?.message}
                     multiline
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     fullWidth
                 />
             </div>
-            {/*<label className='text-xs text-white opacity-70'>
-                Заголовок поста:
-                <input
-                    type='text'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder='Заголовок'
-                    className='mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700'
-                />
-            </label>*/}
-
             <div>
                 <TextField
                     sx={{
@@ -139,25 +127,17 @@ export const EditPostPage = () => {
                     id="outlined-multiline-static"
                     label="Post text"
                     multiline
+                    {...register("text", {required: "This field is required, please enter text"})}
+                    error={Boolean(errors.text?.message)}
+                    helperText={errors.text?.message}
                     value={text}
                     rows={4}
                     onChange={(e) => setText(e.target.value)}
                     fullWidth
                 />
             </div>
-
-            {/*<label className='text-xs text-white opacity-70'>
-                Текст поста:
-                <textarea
-                    onChange={(e) => setText(e.target.value)}
-                    value={text}
-                    placeholder='Текст поста'
-                    className='mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none h-40 placeholder:text-gray-700'
-                />
-            </label>*/}
-
             <div className='flex gap-8 items-center justify-center mt-4'>
-                <Button variant="contained" onClick={submitHandler}>Update post</Button>
+                <Button variant="contained"  type='submit' /*disabled={!isValid}*/ >Update post</Button>
 
                 <Button variant="outlined" color="error" onClick={clearFormHandler}>
                     Clear form
