@@ -3,15 +3,10 @@ import {useEffect} from 'react'
 import {useState} from 'react'
 import {useCallback} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {
-    AiFillEye,
-    AiOutlineMessage,
-    AiTwotoneEdit,
-    AiFillDelete,
-} from 'react-icons/ai'
 import Moment from 'react-moment'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
+import SendIcon from '@mui/icons-material/Send';
 
 import axios from '../utils/axios'
 import {removePost} from '../redux/features/post/postSlice'
@@ -20,6 +15,13 @@ import {
     getPostComments,
 } from '../redux/features/comment/commentSlice'
 import {CommentItem} from '../components/CommentItem'
+import {Fab} from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {CommentRounded} from "@mui/icons-material";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 export const PostPage = () => {
     const [post, setPost] = useState(null)
@@ -35,7 +37,7 @@ export const PostPage = () => {
         try {
             dispatch(removePost(params.id))
             toast('Пост был удален')
-            navigate('/posts')
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -50,7 +52,7 @@ export const PostPage = () => {
             console.log(error)
         }
     }
-    
+
     const fetchComments = useCallback(async () => {
         try {
             dispatch(getPostComments(params.id))
@@ -74,21 +76,17 @@ export const PostPage = () => {
 
     if (!post) {
         return (
-            <div className='text-xl text-center text-white py-10'>
-                Загрузка...
+            <div className={'flex items-center justify-center '}>
+                <div className=' text-xl text-center text-black py-10 bg-white rounded inline-block px-12  '>
+                    No posts here yet
+                </div>
             </div>
         )
     }
     return (
-        <div>
-            <button className='flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4'>
-                <Link className='flex' to={'/'}>
-                    Назад
-                </Link>
-            </button>
-
+        <div className={'px-7'}>
             <div className='flex gap-10 py-8'>
-                <div className='w-2/3'>
+                <div className='w-2/3 bg-white p-12 rounded'>
                     <div className='flex flex-col basis-1/4 flex-grow'>
                         <div
                             className={
@@ -108,71 +106,98 @@ export const PostPage = () => {
                     </div>
 
                     <div className='flex justify-between items-center pt-2'>
-                        <div className='text-xs text-white opacity-50'>
+                        <div className='text-xs text-black  opacity-50'>
                             {post.username}
                         </div>
-                        <div className='text-xs text-white opacity-50'>
+                        <div className='text-xs text-black  opacity-50'>
                             <Moment date={post.createdAt} format='D MMM YYYY'/>
                         </div>
                     </div>
-                    <div className='text-white text-xl'>{post.title}</div>
-                    <p className='text-white opacity-60 text-xs pt-4'>
+                    <div className='text-black text-xl'>{post.title}</div>
+                    <p className='text-black opacity-60 text-xs pt-4 line-clamp-4 whitespace-wrap'>
                         {post.text}
                     </p>
-
                     <div className='flex gap-3 items-center mt-2 justify-between'>
                         <div className='flex gap-3 mt-4'>
-                            <button className='flex items-center justify-center gap-2 text-xs text-white opacity-50'>
-                                <AiFillEye/> <span>{post.views}</span>
+                            <button className='flex items-center justify-center gap-2 text-xs text-black  opacity-50'>
+                                <VisibilityRoundedIcon fontSize="small"/> <span>{post.views}</span>
                             </button>
-                            <button className='flex items-center justify-center gap-2 text-xs text-white opacity-50'>
-                                <AiOutlineMessage/>{' '}
+                            <button className='flex items-center justify-center gap-2 text-xs text-black  opacity-50'>
+                                <CommentRounded fontSize="small"/>
                                 <span>{post.comments?.length || 0} </span>
                             </button>
                         </div>
 
                         {user?._id === post.author && (
                             <div className='flex gap-3 mt-4'>
-                                <button className='flex items-center justify-center gap-2 text-white opacity-50'>
+                                <button className='flex items-center justify-center gap-2 text-black  opacity-50'>
                                     <Link to={`/${params.id}/edit`}>
-                                        <AiTwotoneEdit/>
+                                        <Fab color="secondary" aria-label="edit">
+                                            <EditIcon/>
+                                        </Fab>
                                     </Link>
                                 </button>
                                 <button
                                     onClick={removePostHandler}
-                                    className='flex items-center justify-center gap-2  text-white opacity-50'
+                                    className='flex items-center justify-center gap-2  text-black  opacity-50'
                                 >
-                                    <AiFillDelete/>
+                                    <Fab color="secondary" aria-label="edit">
+                                        <DeleteIcon/>
+                                    </Fab>
                                 </button>
                             </div>
                         )}
                     </div>
                 </div>
-                <div className='w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm'>
-                    <form
-                        className='flex gap-2'
-                        onSubmit={(e) => e.preventDefault()}
-                    >
-                        <input
+
+                {user ? <div className='w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm'>
+                        <form
+                            className='flex gap-2 '
+                            onSubmit={(e) => e.preventDefault()}
+                        >
+                            <TextField
+                                id="outlined-required"
+                                fullwidth
+                                placeholder='Comment'
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                                InputProps={{
+                                    style: {
+                                        background: 'lightgrey'
+                                    }
+                                }}
+                            />
+                            {/*<input
                             type='text'
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             placeholder='Comment'
                             className='text-black w-full rounded-sm bg-gray-400 border p-2 text-xs outline-none placeholder:text-gray-700'
-                        />
-                        <button
-                            type='submit'
-                            onClick={handleSubmit}
-                            className='flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4'
-                        >
-                            Отправить
-                        </button>
-                    </form>
+                        />*/}
+                            <Button type='submit'
+                                    onClick={handleSubmit} variant="contained" endIcon={<SendIcon />}>
+                                Send
+                            </Button>
+                            {/*<Button type='submit'
+                                    onClick={handleSubmit} variant="contained">Contained</Button>*/}
+                            {/*<button
+                                type='submit'
+                                onClick={handleSubmit}
+                                className='flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4'
+                            >
+                                Отправить
+                            </button>*/}
+                        </form>
 
-                    {comments?.map((cmt) => (
-                        <CommentItem key={cmt._id} cmt={cmt}/>
-                    ))}
-                </div>
+                        {comments?.map((cmt) => (
+                            <CommentItem key={cmt._id} cmt={cmt}/>
+                        ))}
+                    </div> :
+                    <div className='w-1/3 p-8 bg-white-700 flex flex-col gap-2 rounded'>
+                        <h1>To view the comments of the post, register or log in to your account</h1>
+                    </div>
+                }
+
             </div>
         </div>
     )

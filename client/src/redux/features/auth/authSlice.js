@@ -37,6 +37,7 @@ export const loginUser = createAsyncThunk(
             if (data.token) {
                 window.localStorage.setItem('token', data.token)
             }
+
             return data
         } catch (error) {
             console.log(error)
@@ -113,7 +114,7 @@ export const authSlice = createSlice({
     },
 })
 
-export const checkIsAuth = (state) => Boolean(state.auth.token)
+export const checkIsAuth = (state) =>  Boolean(state.auth.token)
 
 export const { logout } = authSlice.actions
 export default authSlice.reducer

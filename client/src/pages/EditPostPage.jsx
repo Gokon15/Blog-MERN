@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { updatePost } from '../redux/features/post/postSlice'
 
 import axios from '../utils/axios'
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 export const EditPostPage = () => {
     const [title, setTitle] = useState('')
@@ -23,6 +25,11 @@ export const EditPostPage = () => {
         setOldImage(data.imgUrl)
     }, [params.id])
 
+    const imageFormHandler = () => {
+        setOldImage('')
+        setNewImage('')
+    }
+
     const submitHandler = () => {
         try {
             const updatedPost = new FormData()
@@ -31,7 +38,7 @@ export const EditPostPage = () => {
             updatedPost.append('id', params.id)
             updatedPost.append('image', newImage)
             dispatch(updatePost(updatedPost))
-            navigate('/posts')
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -51,7 +58,31 @@ export const EditPostPage = () => {
             className='w-1/3 mx-auto py-10'
             onSubmit={(e) => e.preventDefault()}
         >
-            <label className='text-gray-300 py-2 bg-gray-600 text-xs mt-2 flex items-center justify-center border-2 border-dotted cursor-pointer'>
+            <Button variant="contained" component="label">
+                 Change image
+                <input onChange={(e) => {
+                    setNewImage(e.target.files[0])
+                    setOldImage('')
+                }} hidden accept="image/*" multiple
+                       type="file"/>
+            </Button>
+
+            {oldImage  && (
+                <div className={'my-6'}>
+                    <Button variant="outlined" color="error" onClick={imageFormHandler}>
+                        Delete image
+                    </Button>
+                </div>
+            )}
+
+            { newImage && (
+                <div className={'my-6'}>
+                    <Button variant="outlined" color="error" onClick={imageFormHandler}>
+                        Delete image
+                    </Button>
+                </div>
+            )}
+            {/*<label className='text-gray-300 py-2 bg-gray-600 text-xs mt-2 flex items-center justify-center border-2 border-dotted cursor-pointer'>
                 Прикрепить изорбажение:
                 <input
                     type='file'
@@ -61,8 +92,9 @@ export const EditPostPage = () => {
                         setOldImage('')
                     }}
                 />
-            </label>
+            </label>*/}
             <div className='flex object-cover py-2'>
+
                 {oldImage && (
                     <img
                         src={`http://localhost:3002/${oldImage}`}
@@ -77,7 +109,18 @@ export const EditPostPage = () => {
                 )}
             </div>
 
-            <label className='text-xs text-white opacity-70'>
+            <div className={'bg-white rounded my-12'}>
+                <TextField
+                    variant="standard"
+                    placeholder="Post title"
+                    label="Post title"
+                    multiline
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    fullWidth
+                />
+            </div>
+            {/*<label className='text-xs text-white opacity-70'>
                 Заголовок поста:
                 <input
                     type='text'
@@ -86,9 +129,24 @@ export const EditPostPage = () => {
                     placeholder='Заголовок'
                     className='mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700'
                 />
-            </label>
+            </label>*/}
 
-            <label className='text-xs text-white opacity-70'>
+            <div>
+                <TextField
+                    sx={{
+                        width: 515,
+                    }}
+                    id="outlined-multiline-static"
+                    label="Post text"
+                    multiline
+                    value={text}
+                    rows={4}
+                    onChange={(e) => setText(e.target.value)}
+                    fullWidth
+                />
+            </div>
+
+            {/*<label className='text-xs text-white opacity-70'>
                 Текст поста:
                 <textarea
                     onChange={(e) => setText(e.target.value)}
@@ -96,22 +154,14 @@ export const EditPostPage = () => {
                     placeholder='Текст поста'
                     className='mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none h-40 placeholder:text-gray-700'
                 />
-            </label>
+            </label>*/}
 
             <div className='flex gap-8 items-center justify-center mt-4'>
-                <button
-                    onClick={submitHandler}
-                    className='flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4'
-                >
-                    Обновить
-                </button>
+                <Button variant="contained" onClick={submitHandler}>Update post</Button>
 
-                <button
-                    onClick={clearFormHandler}
-                    className='flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4'
-                >
-                    Отменить
-                </button>
+                <Button variant="outlined" color="error" onClick={clearFormHandler}>
+                    Clear form
+                </Button>
             </div>
         </form>
     )

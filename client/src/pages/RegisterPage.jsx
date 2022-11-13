@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { registerUser, checkIsAuth } from '../redux/features/auth/authSlice'
-import { toast } from 'react-toastify'
+import React, {useState, useEffect} from 'react'
+import {Link, Navigate, useNavigate} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
+import {registerUser, checkIsAuth} from '../redux/features/auth/authSlice'
+import {toast} from 'react-toastify'
+
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import styles from "../scss/Login.module.scss";
+
+import {useForm} from "react-hook-form";
 
 export const RegisterPage = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const { status } = useSelector((state) => state.auth)
     const isAuth = useSelector(checkIsAuth)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (status) {
-            toast(status)
+        if (isAuth) {
+            navigate("/");
         }
-        if (isAuth) navigate('/')
-    }, [status, isAuth, navigate])
+    }, [isAuth, navigate])
 
-    const handleSubmit = () => {
+    const onSubmit = async() => {
         try {
-            dispatch(registerUser({ username, password }))
+            const data =  await dispatch(registerUser({username, password}))
+            if (isAuth)  return <Navigate to="/"/>
+            toast(data.payload.message)
             setPassword('')
             setUsername('')
         } catch (error) {
@@ -30,8 +39,18 @@ export const RegisterPage = () => {
         }
     }
 
+    const {
+        register,
+        handleSubmit,
+        formState: {errors, isValid},
+    } = useForm({
+        mode: "onChange",
+    });
+
+
     return (
-        <form
+        <>
+            {/*<form
             onSubmit={(e) => e.preventDefault()}
             className='w-1/4 h-60 mx-auto mt-40'
         >
@@ -61,7 +80,7 @@ export const RegisterPage = () => {
             <div className='flex gap-8 justify-center mt-4'>
                 <button
                     type='submit'
-                    onClick={handleSubmit}
+                    onClick={onSubmit}
                     className='flex justify-center items-center text-xs bg-gray-600 text-white rounded-sm py-2 px-4'
                 >
                     Подтвердить
@@ -73,6 +92,53 @@ export const RegisterPage = () => {
                     Уже зарегистрированы ?
                 </Link>
             </div>
-        </form>
+        </form>*/}
+            <Paper classes={{root: styles.root}}>
+                <Typography classes={{root: styles.title}} variant="h5">
+                    Registration
+                </Typography>
+                <div className={styles.avatar}>
+                    <Avatar sx={{width: 100, height: 100}}/>
+                </div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        error={Boolean(errors.fullName?.message)}
+                        helperText={errors.fullName?.message}
+                        {...register("fullName", {required: "Укажите полное имя"})}
+                        className={styles.field}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        label="User name"
+                        fullWidth
+                    />
+                    <TextField
+                        error={Boolean(errors.password?.message)}
+                        helperText={errors.password?.message}
+                        type="password"
+                        {...register("password", {required: "Укажите пароль"})}
+                        className={styles.field}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        label="Password"
+                        fullWidth
+                    />
+                    <Button
+                        disabled={!isValid}
+                        onClick={handleSubmit(onSubmit)}
+                        type="submit"
+                        size="large"
+                        variant="contained"
+                        fullWidth
+                    >
+                        Register
+                    </Button>
+                </form>
+                    <Link
+                        to='/login'
+                        className='flex justify-center items-center text-xs text-black my-5 '>
+                        Already registered?
+                    </Link>
+            </Paper>
+        </>
     )
 }

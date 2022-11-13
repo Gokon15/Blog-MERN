@@ -44,7 +44,7 @@ export const createPost = async (req, res) => {
         })
         res.json(newPostWithoutImage)
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
 
@@ -60,7 +60,7 @@ export const getAll = async (req, res) => {
 
         res.json({posts, popularPosts})
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
 
@@ -72,23 +72,23 @@ export const getById = async (req, res) => {
         })
         res.json(post)
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
 
 // Get All Posts
 export const getMyPosts = async (req, res) => {
     try {
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req.userId).sort('-createdAt')
         const list = await Promise.all(
             user.posts.map((post) => {
-                return Post.findById(post._id)
+                return Post.findById(post._id).sort('-createdAt')
             }),
         )
 
         res.json(list)
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
 
@@ -96,15 +96,15 @@ export const getMyPosts = async (req, res) => {
 export const removePost = async (req, res) => {
     try {
         const post = await Post.findByIdAndDelete(req.params.id)
-        if (!post) return res.json({message: 'Такого поста не существует'})
+        if (!post) return res.json({message: 'This post does not exist'})
 
         await User.findByIdAndUpdate(req.userId, {
             $pull: {posts: req.params.id},
         })
 
-        res.json({message: 'Пост был удален.'})
+        res.json({message: 'The post has been deleted'})
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
 
@@ -128,7 +128,7 @@ export const updatePost = async (req, res) => {
 
         res.json(post)
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
 
@@ -143,6 +143,6 @@ export const getPostComments = async (req, res) => {
         )
         res.json(list)
     } catch (error) {
-        res.json({message: 'Что-то пошло не так.'})
+        res.json({message: 'Something went wrong'})
     }
 }
