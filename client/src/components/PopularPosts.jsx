@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from "prop-types";
 
 export const PopularPosts = ({ post }) => {
     return (
@@ -13,3 +14,10 @@ export const PopularPosts = ({ post }) => {
         </div>
     )
 }
+
+PopularPosts.propTypes = {
+    post: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+    }),
+};

@@ -3,11 +3,12 @@ import {useDispatch, useSelector} from 'react-redux'
 import {PopularPosts} from '../components/PopularPosts'
 import {PostItem} from '../components/PostItem'
 import {getAllPosts} from '../redux/features/post/postSlice'
-
+import {useTranslation } from "react-i18next";
 
 export const MainPage = () => {
     const dispatch = useDispatch()
     const {posts, popularPosts} = useSelector((state) => state.post)
+    const { t } = useTranslation();
 
     useEffect(() => {
        dispatch(getAllPosts())
@@ -33,7 +34,7 @@ export const MainPage = () => {
                 </div>
                 <div className='basis-1/5'>
                     <div className='text-xs uppercase text-black '>
-                        Popular posts:
+                        {t("popPosts")}
                     </div>
 
                     {popularPosts?.map((post, idx) => (

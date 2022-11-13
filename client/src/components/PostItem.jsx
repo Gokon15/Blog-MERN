@@ -3,6 +3,7 @@ import Moment from 'react-moment'
 import {Link} from 'react-router-dom'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import {CommentRounded} from "@mui/icons-material";
+import PropTypes from "prop-types";
 
 export const PostItem = ({post}) => {
     if (!post) {
@@ -58,3 +59,15 @@ export const PostItem = ({post}) => {
         </div>
     )
 }
+
+
+PostItem.propTypes = {
+    post: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        imgUrl: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        createdAt: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+    }),
+};

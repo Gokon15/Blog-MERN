@@ -8,6 +8,7 @@ import axios from '../utils/axios'
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import {useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
 
 export const EditPostPage = () => {
     const [title, setTitle] = useState('')
@@ -60,13 +61,15 @@ export const EditPostPage = () => {
         formState: {errors},
     } = useForm({});
 
+    const { t } = useTranslation();
+
     return (
         <form
             className='w-1/3 mx-auto py-10'
             onSubmit={handleSubmit(submitHandler)}
         >
             <Button variant="contained" component="label">
-                 Change image
+                {t("changeImage")}
                 <input onChange={(e) => {
                     setNewImage(e.target.files[0])
                     setOldImage('')
@@ -77,7 +80,7 @@ export const EditPostPage = () => {
             {oldImage  && (
                 <div className={'my-6'}>
                     <Button variant="outlined" color="error" onClick={imageFormHandler}>
-                        Delete image
+                        {t("deleteImage")}
                     </Button>
                 </div>
             )}
@@ -85,7 +88,7 @@ export const EditPostPage = () => {
             { newImage && (
                 <div className={'my-6'}>
                     <Button variant="outlined" color="error" onClick={imageFormHandler}>
-                        Delete image
+                        {t("deleteImage")}
                     </Button>
                 </div>
             )}
@@ -108,8 +111,8 @@ export const EditPostPage = () => {
             <div className={'bg-white rounded my-12'}>
                 <TextField
                     variant="standard"
-                    placeholder="Post title"
-                    label="Post title"
+                    placeholder={t("postTitle")}
+                    label={t("postTitle")}
                     {...register("title", {required: "This field is required, please enter title"})}
                     error={Boolean(errors.title?.message)}
                     helperText={errors.title?.message}
@@ -125,7 +128,7 @@ export const EditPostPage = () => {
                         width: 515,
                     }}
                     id="outlined-multiline-static"
-                    label="Post text"
+                    label={t("postText")}
                     multiline
                     {...register("text", {required: "This field is required, please enter text"})}
                     error={Boolean(errors.text?.message)}
@@ -137,10 +140,10 @@ export const EditPostPage = () => {
                 />
             </div>
             <div className='flex gap-8 items-center justify-center mt-4'>
-                <Button variant="contained"  type='submit' /*disabled={!isValid}*/ >Update post</Button>
+                <Button variant="contained"  type='submit' /*disabled={!isValid}*/ >{t("updatePost")}</Button>
 
                 <Button variant="outlined" color="error" onClick={clearFormHandler}>
-                    Clear form
+                    {t("clearForm")}
                 </Button>
             </div>
         </form>

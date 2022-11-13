@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from "prop-types";
 
 export const CommentItem = ({ cmt }) => {
     const avatar = cmt.comment.trim().toUpperCase().split('').slice(0, 2)
@@ -11,3 +12,10 @@ export const CommentItem = ({ cmt }) => {
         </div>
     )
 }
+
+
+CommentItem.propTypes = {
+    cmt: PropTypes.shape({
+        comment: PropTypes.string.isRequired,
+    }),
+};

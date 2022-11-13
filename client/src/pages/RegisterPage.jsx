@@ -12,6 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import styles from "../scss/Login.module.scss";
 
 import {useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
 
 export const RegisterPage = () => {
     const [username, setUsername] = useState('')
@@ -47,55 +48,13 @@ export const RegisterPage = () => {
         mode: "onChange",
     });
 
+    const { t } = useTranslation();
 
     return (
         <>
-            {/*<form
-            onSubmit={(e) => e.preventDefault()}
-            className='w-1/4 h-60 mx-auto mt-40'
-        >
-            <h1 className='text-lg text-white text-center'>Регистрация</h1>
-            <label className='text-xs text-gray-400'>
-                Username:
-                <input
-                    type='text'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder='Username'
-                    className='mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700'
-                />
-            </label>
-
-            <label className='text-xs text-gray-400'>
-                Password:
-                <input
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder='Password'
-                    className='mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700'
-                />
-            </label>
-
-            <div className='flex gap-8 justify-center mt-4'>
-                <button
-                    type='submit'
-                    onClick={onSubmit}
-                    className='flex justify-center items-center text-xs bg-gray-600 text-white rounded-sm py-2 px-4'
-                >
-                    Подтвердить
-                </button>
-                <Link
-                    to='/login'
-                    className='flex justify-center items-center text-xs text-white'
-                >
-                    Уже зарегистрированы ?
-                </Link>
-            </div>
-        </form>*/}
             <Paper classes={{root: styles.root}}>
                 <Typography classes={{root: styles.title}} variant="h5">
-                    Registration
+                    {t("register")}
                 </Typography>
                 <div className={styles.avatar}>
                     <Avatar sx={{width: 100, height: 100}}/>
@@ -108,7 +67,7 @@ export const RegisterPage = () => {
                         className={styles.field}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        label="User name"
+                        label={t("username")}
                         fullWidth
                     />
                     <TextField
@@ -119,7 +78,7 @@ export const RegisterPage = () => {
                         className={styles.field}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        label="Password"
+                        label={t("password")}
                         fullWidth
                     />
                     <Button
@@ -130,13 +89,13 @@ export const RegisterPage = () => {
                         variant="contained"
                         fullWidth
                     >
-                        Register
+                        {t("register")}
                     </Button>
                 </form>
                     <Link
                         to='/login'
                         className='flex justify-center items-center text-xs text-black my-5 '>
-                        Already registered?
+                        {t("haveAcc")}
                     </Link>
             </Paper>
         </>

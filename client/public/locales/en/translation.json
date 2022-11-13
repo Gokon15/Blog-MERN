@@ -1,0 +1,27 @@
+{
+  "navBar": {
+    "main": "Main",
+    "posts": "My posts",
+    "add": "Add post",
+    "logout": "Log out",
+    "login": "Login"
+  },
+  "popPosts": "Popular posts",
+  "changeImage": "Change image",
+  "uploadImage": "Upload image",
+  "deleteImage": "Delete image",
+  "postTitle": "Post title",
+  "postText": "Post text",
+  "addPost": "Add post",
+  "clearForm": "Clear form",
+  "updatePost": "Update post",
+  "auth": "Authorization",
+  "register": "Registration",
+  "username": "User name",
+  "password": "Password",
+  "haven`tAcc": "Don't have an account?",
+  "haveAcc": "Already registered?",
+  "viewComment": "To view the comments of the post, register or log in to your account",
+  "comment": "Comment",
+  "send": "send"
+}

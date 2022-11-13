@@ -22,6 +22,8 @@ import {CommentRounded} from "@mui/icons-material";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import {useTranslation} from "react-i18next";
+import {useForm} from "react-hook-form";
 
 export const PostPage = () => {
     const [post, setPost] = useState(null)
@@ -43,7 +45,7 @@ export const PostPage = () => {
         }
     }
 
-    const handleSubmit = () => {
+    const onSubmit = () => {
         try {
             const postId = params.id
             dispatch(createComment({postId, comment}))
@@ -73,6 +75,16 @@ export const PostPage = () => {
     useEffect(() => {
         fetchComments()
     }, [fetchComments])
+
+    const {t} = useTranslation();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { isValid},
+    } = useForm({
+        mode: "onChange",
+    });
 
     if (!post) {
         return (
@@ -153,12 +165,13 @@ export const PostPage = () => {
                 {user ? <div className='w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm'>
                         <form
                             className='flex gap-2 '
-                            onSubmit={(e) => e.preventDefault()}
+                            onSubmit={handleSubmit(onSubmit)}
                         >
                             <TextField
                                 id="outlined-required"
                                 fullwidth
-                                placeholder='Comment'
+                                placeholder={t("comment")}
+                                {...register("comment", {required: "Input comment"})}
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
                                 InputProps={{
@@ -167,26 +180,12 @@ export const PostPage = () => {
                                     }
                                 }}
                             />
-                            {/*<input
-                            type='text'
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            placeholder='Comment'
-                            className='text-black w-full rounded-sm bg-gray-400 border p-2 text-xs outline-none placeholder:text-gray-700'
-                        />*/}
+
                             <Button type='submit'
-                                    onClick={handleSubmit} variant="contained" endIcon={<SendIcon />}>
-                                Send
+                                    disabled={!isValid}
+                                    variant="contained" endIcon={<SendIcon/>}>
+                                {t("send")}
                             </Button>
-                            {/*<Button type='submit'
-                                    onClick={handleSubmit} variant="contained">Contained</Button>*/}
-                            {/*<button
-                                type='submit'
-                                onClick={handleSubmit}
-                                className='flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4'
-                            >
-                                Отправить
-                            </button>*/}
                         </form>
 
                         {comments?.map((cmt) => (
@@ -194,10 +193,9 @@ export const PostPage = () => {
                         ))}
                     </div> :
                     <div className='w-1/3 p-8 bg-white-700 flex flex-col gap-2 rounded'>
-                        <h1>To view the comments of the post, register or log in to your account</h1>
+                        <h1>{t("viewComment")}</h1>
                     </div>
                 }
-
             </div>
         </div>
     )

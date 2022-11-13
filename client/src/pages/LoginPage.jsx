@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import {useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
 
 
 export const LoginPage = () => {
@@ -35,6 +36,8 @@ export const LoginPage = () => {
         }
     }
 
+    const { t } = useTranslation();
+
     const {
         register,
         handleSubmit,
@@ -44,7 +47,7 @@ export const LoginPage = () => {
         <>
             <Paper classes={{root: styles.root}}>
                 <Typography classes={{root: styles.title}} variant="h5">
-                    Authorization
+                    {t("auth")}
                 </Typography>
                 <div className={styles.avatar}>
                     <Avatar sx={{width: 100, height: 100}}/>
@@ -57,7 +60,7 @@ export const LoginPage = () => {
                         className={styles.field}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        label="User name"
+                        label={t("username")}
                         fullWidth
                     />
                     <TextField
@@ -68,25 +71,24 @@ export const LoginPage = () => {
                         className={styles.field}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        label="Password"
+                        label={t("password")}
                         fullWidth
                     />
                     <Button
                         disabled={!isValid}
-                        /*onClick={handleSubmit(onSubmit)}*/
                         type="submit"
                         size="large"
                         variant="contained"
                         fullWidth
                     >
-                        Log In
+                        {t("navBar.login")}
                     </Button>
                 </form>
                 <Link href="#">
                     <Link
                         to='/register'
                         className='flex justify-center items-center text-xs text-black my-5 '>
-                        Don't have an account?
+                        {t("haven`tAcc")}
                     </Link>
                 </Link>
             </Paper>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Navbar } from './Navbar'
+import PropTypes from 'prop-types';
 
 export const Layout = ({ children }) => {
     return (
@@ -11,3 +12,7 @@ export const Layout = ({ children }) => {
         </React.Fragment>
     )
 }
+
+Layout.propTypes = {
+    children: PropTypes.array
+};
