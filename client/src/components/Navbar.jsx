@@ -59,7 +59,7 @@ export const Navbar = () => {
                                 <div className="hidden sm:ml-6 sm:block mr-7">
                                     <div className="flex space-x-4">
                                         <button className={'text-gray-300 hover:bg-gray-700 hover:text-white'} onClick={() => changeLanguage("en")}>EN</button>
-                                        <button className={'text-gray-300 hover:bg-gray-700 hover:text-white'} onClick={() => changeLanguage("de")}>UA</button>
+                                        <button className={'text-gray-300 hover:bg-gray-700 hover:text-white'} onClick={() => changeLanguage("ua")}>UA</button>
                                         <NavLink
                                             to={'/'}
                                             style={({isActive}) =>
@@ -110,7 +110,7 @@ export const Navbar = () => {
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4 mr-6">
                                         <button onClick={() => changeLanguage("en")}>EN</button>
-                                        <button onClick={() => changeLanguage("de")}>UA</button>
+                                        <button onClick={() => changeLanguage("ua")}>UA</button>
                                         <NavLink
                                             to={'/'}
                                             style={({isActive}) =>
