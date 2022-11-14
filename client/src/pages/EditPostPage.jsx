@@ -7,10 +7,10 @@ import { updatePost } from '../redux/features/post/postSlice'
 import axios from '../utils/axios'
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import {useForm} from "react-hook-form";
-import {useTranslation} from "react-i18next";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
-export const EditPostPage = () => {
+ const EditPostPage = () => {
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
     const [oldImage, setOldImage] = useState('')
@@ -149,3 +149,5 @@ export const EditPostPage = () => {
         </form>
     )
 }
+
+export default EditPostPage;

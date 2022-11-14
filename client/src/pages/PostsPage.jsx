@@ -1,10 +1,10 @@
-import React, {useCallback} from 'react'
-import {useEffect} from 'react'
-import {useState} from 'react'
-import {PostItem} from '../components/PostItem'
+import React, { useCallback } from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import PostItem from '../components/PostItem'
 import axios from '../utils/axios'
 
-export const PostsPage = () => {
+ const PostsPage = () => {
     const [posts, setPosts] = useState([])
 
     const fetchMyPosts = useCallback(async () => {
@@ -29,3 +29,5 @@ export const PostsPage = () => {
         </div>
     )
 }
+
+export default PostsPage;

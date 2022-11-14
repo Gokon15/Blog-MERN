@@ -1,12 +1,12 @@
 import React from 'react'
-import { Navbar } from './Navbar'
+import Navbar from './Navbar'
 import PropTypes from 'prop-types';
 
-export const Layout = ({ children }) => {
+const Layout = ({children}) => {
     return (
         <React.Fragment>
             <div className='container mx-auto'>
-                <Navbar />
+                <Navbar/>
                 {children}
             </div>
         </React.Fragment>
@@ -16,3 +16,5 @@ export const Layout = ({ children }) => {
 Layout.propTypes = {
     children: PropTypes.array
 };
+
+export default Layout;

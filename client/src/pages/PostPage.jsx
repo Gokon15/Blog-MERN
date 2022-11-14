@@ -1,11 +1,11 @@
 import React from 'react'
-import {useEffect} from 'react'
-import {useState} from 'react'
-import {useCallback} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Moment from 'react-moment'
-import {Link, useNavigate, useParams} from 'react-router-dom'
-import {toast} from 'react-toastify'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import SendIcon from '@mui/icons-material/Send';
 
 import axios from '../utils/axios'
@@ -25,7 +25,7 @@ import Button from "@mui/material/Button";
 import {useTranslation} from "react-i18next";
 import {useForm} from "react-hook-form";
 
-export const PostPage = () => {
+const PostPage = () => {
     const [post, setPost] = useState(null)
     const [comment, setComment] = useState('')
 
@@ -200,3 +200,5 @@ export const PostPage = () => {
         </div>
     )
 }
+
+export default PostPage;

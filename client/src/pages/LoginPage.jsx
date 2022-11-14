@@ -1,19 +1,19 @@
-import React, {useState, useEffect} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux'
-import {checkIsAuth, loginUser} from '../redux/features/auth/authSlice'
-import {toast} from 'react-toastify'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkIsAuth, loginUser } from '../redux/features/auth/authSlice'
+import { toast } from 'react-toastify'
 import styles from "../scss/Login.module.scss";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-import {useForm} from "react-hook-form";
-import {useTranslation} from "react-i18next";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 
-export const LoginPage = () => {
+ const LoginPage = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -95,3 +95,5 @@ export const LoginPage = () => {
         </>
     )
 }
+
+export default LoginPage;

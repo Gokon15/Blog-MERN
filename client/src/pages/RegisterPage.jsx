@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import {Link, Navigate, useNavigate} from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux'
-import {registerUser, checkIsAuth} from '../redux/features/auth/authSlice'
-import {toast} from 'react-toastify'
+import React, { useState, useEffect } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser, checkIsAuth } from '../redux/features/auth/authSlice'
+import { toast } from 'react-toastify'
 
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -11,10 +11,10 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import styles from "../scss/Login.module.scss";
 
-import {useForm} from "react-hook-form";
-import {useTranslation} from "react-i18next";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
-export const RegisterPage = () => {
+ const RegisterPage = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const isAuth = useSelector(checkIsAuth)
@@ -101,3 +101,5 @@ export const RegisterPage = () => {
         </>
     )
 }
+
+export default RegisterPage;

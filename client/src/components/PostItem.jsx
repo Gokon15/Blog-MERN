@@ -1,11 +1,11 @@
 import React from 'react'
 import Moment from 'react-moment'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import {CommentRounded} from "@mui/icons-material";
+import { CommentRounded } from "@mui/icons-material";
 import PropTypes from "prop-types";
 
-export const PostItem = ({post}) => {
+const PostItem = ({post}) => {
     if (!post) {
         return (
             <div className={'flex items-center justify-center '}>
@@ -71,3 +71,5 @@ PostItem.propTypes = {
         text: PropTypes.string.isRequired,
     }),
 };
+
+export default PostItem;

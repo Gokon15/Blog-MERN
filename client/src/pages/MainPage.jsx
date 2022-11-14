@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {PopularPosts} from '../components/PopularPosts'
-import {PostItem} from '../components/PostItem'
-import {getAllPosts} from '../redux/features/post/postSlice'
-import {useTranslation } from "react-i18next";
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { PopularPosts } from '../components/PopularPosts'
+import PostItem from '../components/PostItem'
+import { getAllPosts } from '../redux/features/post/postSlice'
+import { useTranslation } from "react-i18next";
 
-export const MainPage = () => {
+const MainPage = () => {
     const dispatch = useDispatch()
     const {posts, popularPosts} = useSelector((state) => state.post)
     const { t } = useTranslation();
@@ -45,3 +45,5 @@ export const MainPage = () => {
         </div>
     )
 }
+
+export default MainPage;
