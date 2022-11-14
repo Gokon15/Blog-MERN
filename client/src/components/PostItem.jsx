@@ -9,8 +9,8 @@ const PostItem = ({post}) => {
     if (!post) {
         return (
             <div className={'flex items-center justify-center '}>
-                <div className=' '>
-                    <p/>
+                <div>
+                    <p data-testid='emptyP'/>
                 </div>
             </div>
         )
