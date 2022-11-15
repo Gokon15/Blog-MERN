@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser, checkIsAuth } from '../redux/features/auth/authSlice'
 import { toast } from 'react-toastify'
@@ -24,14 +24,13 @@ import { useTranslation } from "react-i18next";
 
     useEffect(() => {
         if (isAuth) {
-            navigate("/");
+            navigate('/');
         }
     }, [isAuth, navigate])
 
-    const onSubmit = async() => {
+    const onSubmit = () => {
         try {
-            const data =  await dispatch(registerUser({username, password}))
-            if (isAuth)  return <Navigate to="/"/>
+            const data = dispatch(registerUser({username, password}))
             toast(data.payload.message)
             setPassword('')
             setUsername('')
