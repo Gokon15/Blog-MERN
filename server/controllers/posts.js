@@ -55,7 +55,7 @@ export const getAll = async (req, res) => {
         const popularPosts = await Post.find().limit(5).sort('-views')
 
         if (!posts) {
-            return res.json({message: 'Постов нет'})
+            return res.json({message: 'No posts'})
         }
 
         res.json({posts, popularPosts})

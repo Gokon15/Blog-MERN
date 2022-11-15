@@ -28,9 +28,9 @@ import { useTranslation } from "react-i18next";
         }
     }, [isAuth, navigate])
 
-    const onSubmit = () => {
+    const onSubmit = async() => {
         try {
-            const data = dispatch(registerUser({username, password}))
+            const data =  await dispatch(registerUser({username, password}))
             toast(data.payload.message)
             setPassword('')
             setUsername('')
