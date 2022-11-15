@@ -10,6 +10,7 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
     order: ['queryString', 'cookie'],
     cache: ['cookie']
   },
+
   interpolation: {
     escapeValue: false
   }
