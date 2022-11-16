@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { registerUser, checkIsAuth } from '../redux/features/auth/authSlice'
-import { toast } from 'react-toastify'
+import React, {useState, useEffect} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
+import {registerUser, checkIsAuth} from '../redux/features/auth/authSlice'
+import {toast} from 'react-toastify'
 
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -11,13 +11,16 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import styles from "../scss/Login.module.scss";
 
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import {useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
- const RegisterPage = () => {
+const RegisterPage = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const isAuth = useSelector(checkIsAuth)
+    const isLoading = useSelector((state) => state.auth.isLoading)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -28,12 +31,10 @@ import { useTranslation } from "react-i18next";
         }
     }, [isAuth, navigate])
 
-    const onSubmit = async() => {
+    const onSubmit = async () => {
         try {
-            const data =  await dispatch(registerUser({username, password}))
+            const data = await dispatch(registerUser({username, password}))
             toast(data.payload.message)
-            setPassword('')
-            setUsername('')
         } catch (error) {
             console.log(error)
         }
@@ -47,11 +48,13 @@ import { useTranslation } from "react-i18next";
         mode: "onChange",
     });
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <>
-            <Paper classes={{root: styles.root}}>
+            {isLoading ? <Box className='flex  justify-center justify-items-center mt-12'>
+                <CircularProgress/>
+            </Box> : <Paper classes={{root: styles.root}}>
                 <Typography classes={{root: styles.title}} variant="h5">
                     {t("register")}
                 </Typography>
@@ -91,12 +94,13 @@ import { useTranslation } from "react-i18next";
                         {t("register")}
                     </Button>
                 </form>
-                    <Link
-                        to='/login'
-                        className='flex justify-center items-center text-xs text-black my-5 '>
-                        {t("haveAcc")}
-                    </Link>
-            </Paper>
+                <Link
+                    to='/login'
+                    className='flex justify-center items-center text-xs text-black my-5 '>
+                    {t("haveAcc")}
+                </Link>
+            </Paper>}
+
         </>
     )
 }

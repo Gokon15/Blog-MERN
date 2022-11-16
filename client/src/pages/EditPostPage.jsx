@@ -1,27 +1,31 @@
 import React from 'react'
-import { useEffect, useState, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { updatePost } from '../redux/features/post/postSlice'
+import {useEffect, useState, useCallback} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {useNavigate, useParams} from 'react-router-dom'
+import {updatePost} from '../redux/features/post/postSlice'
 
 import axios from '../utils/axios'
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import {useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
- const EditPostPage = () => {
+const EditPostPage = () => {
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
     const [oldImage, setOldImage] = useState('')
     const [newImage, setNewImage] = useState('')
+
+    const isLoading = useSelector((state) => state.post.loading)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
 
     const fetchPost = useCallback(async () => {
-        const { data } = await axios.get(`/posts/${params.id}`)
+        const {data} = await axios.get(`/posts/${params.id}`)
         setTitle(data.title)
         setText(data.text)
         setOldImage(data.imgUrl)
@@ -61,92 +65,97 @@ import { useTranslation } from "react-i18next";
         formState: {errors},
     } = useForm({});
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
-        <form
-            className='w-1/3 mx-auto py-10'
-            onSubmit={handleSubmit(submitHandler)}
-        >
-            <Button variant="contained" component="label">
-                {t("changeImage")}
-                <input onChange={(e) => {
-                    setNewImage(e.target.files[0])
-                    setOldImage('')
-                }} hidden accept="image/*" multiple
-                       type="file"/>
-            </Button>
-
-            {oldImage  && (
-                <div className={'my-6'}>
-                    <Button variant="outlined" color="error" onClick={imageFormHandler}>
-                        {t("deleteImage")}
-                    </Button>
-                </div>
-            )}
-
-            { newImage && (
-                <div className={'my-6'}>
-                    <Button variant="outlined" color="error" onClick={imageFormHandler}>
-                        {t("deleteImage")}
-                    </Button>
-                </div>
-            )}
-            <div className='flex object-cover py-2'>
+        <>
+            {isLoading ? <Box className='flex  justify-center justify-items-center mt-12'>
+                <CircularProgress/>
+            </Box> : <form
+                className='w-1/3 mx-auto py-10'
+                onSubmit={handleSubmit(submitHandler)}
+            >
+                <Button variant="contained" component="label">
+                    {t("changeImage")}
+                    <input onChange={(e) => {
+                        setNewImage(e.target.files[0])
+                        setOldImage('')
+                    }} hidden accept="image/*" multiple
+                           type="file"/>
+                </Button>
 
                 {oldImage && (
-                    <img
-                        src={`http://localhost:3002/${oldImage}`}
-                        alt={oldImage.name}
-                    />
+                    <div className={'my-6'}>
+                        <Button variant="outlined" color="error" onClick={imageFormHandler}>
+                            {t("deleteImage")}
+                        </Button>
+                    </div>
                 )}
+
                 {newImage && (
-                    <img
-                        src={URL.createObjectURL(newImage)}
-                        alt={newImage.name}
-                    />
+                    <div className={'my-6'}>
+                        <Button variant="outlined" color="error" onClick={imageFormHandler}>
+                            {t("deleteImage")}
+                        </Button>
+                    </div>
                 )}
-            </div>
+                <div className='flex object-cover py-2'>
 
-            <div className={'bg-white rounded my-12'}>
-                <TextField
-                    variant="standard"
-                    placeholder={t("postTitle")}
-                    label={t("postTitle")}
-                    {...register("title", {required: "This field is required, please enter title"})}
-                    error={Boolean(errors.title?.message)}
-                    helperText={errors.title?.message}
-                    multiline
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    fullWidth
-                />
-            </div>
-            <div>
-                <TextField
-                    sx={{
-                        width: 515,
-                    }}
-                    id="outlined-multiline-static"
-                    label={t("postText")}
-                    multiline
-                    {...register("text", {required: "This field is required, please enter text"})}
-                    error={Boolean(errors.text?.message)}
-                    helperText={errors.text?.message}
-                    value={text}
-                    rows={4}
-                    onChange={(e) => setText(e.target.value)}
-                    fullWidth
-                />
-            </div>
-            <div className='flex gap-8 items-center justify-center mt-4'>
-                <Button variant="contained"  type='submit' /*disabled={!isValid}*/ >{t("updatePost")}</Button>
+                    {oldImage && (
+                        <img
+                            src={`http://localhost:3002/${oldImage}`}
+                            alt={oldImage.name}
+                        />
+                    )}
+                    {newImage && (
+                        <img
+                            src={URL.createObjectURL(newImage)}
+                            alt={newImage.name}
+                        />
+                    )}
+                </div>
 
-                <Button variant="outlined" color="error" onClick={clearFormHandler}>
-                    {t("clearForm")}
-                </Button>
-            </div>
-        </form>
+                <div className={'bg-white rounded my-12'}>
+                    <TextField
+                        variant="standard"
+                        placeholder={t("postTitle")}
+                        label={t("postTitle")}
+                        {...register("title", {required: "This field is required, please enter title"})}
+                        error={Boolean(errors.title?.message)}
+                        helperText={errors.title?.message}
+                        multiline
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        fullWidth
+                    />
+                </div>
+                <div>
+                    <TextField
+                        sx={{
+                            width: 515,
+                        }}
+                        id="outlined-multiline-static"
+                        label={t("postText")}
+                        multiline
+                        {...register("text", {required: "This field is required, please enter text"})}
+                        error={Boolean(errors.text?.message)}
+                        helperText={errors.text?.message}
+                        value={text}
+                        rows={4}
+                        onChange={(e) => setText(e.target.value)}
+                        fullWidth
+                    />
+                </div>
+                <div className='flex gap-8 items-center justify-center mt-4'>
+                    <Button variant="contained" type='submit' /*disabled={!isValid}*/ >{t("updatePost")}</Button>
+
+                    <Button variant="outlined" color="error" onClick={clearFormHandler}>
+                        {t("clearForm")}
+                    </Button>
+                </div>
+            </form>
+            }
+        </>
     )
 }
 
