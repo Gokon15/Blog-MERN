@@ -1,6 +1,6 @@
 import './App.css';
 import Layout from "./components/Layout";
-import { Route, Routes } from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import PostPage from "./pages/PostPage";
 import PostsPage from "./pages/PostsPage";
@@ -10,14 +10,15 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useEffect } from "react";
-import { getMe } from "./redux/features/auth/authSlice";
+import {checkIsAuth, getMe} from "./redux/features/auth/authSlice";
 
 
 
 function App() {
     const dispatch = useDispatch()
+    const isAuth = useSelector(checkIsAuth)
 
     useEffect(() => {
         dispatch(getMe())
@@ -27,10 +28,10 @@ function App() {
         <Layout>
             <Routes>
                 <Route path='/' element={<MainPage/>}/>
-                <Route path='posts' element={<PostsPage/>}/>
-                <Route path=':id' element={<PostPage/>}/>
+                <Route path='posts' element={!isAuth ? <MainPage/> : <PostsPage/>}/>
+                <Route path=':id' element={!isAuth ? <MainPage/> : <PostPage/>}/>
                 <Route path=':id/edit' element={<EditPostPage/>}/>
-                <Route path='new' element={<AddPostPage/>}/>
+                <Route path='new' element={ !isAuth ? <MainPage/> : <AddPostPage/>}/>
                 <Route path='register' element={<RegisterPage/>}/>
                 <Route path='login' element={<LoginPage/>}/>
             </Routes>

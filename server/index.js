@@ -26,7 +26,7 @@ app.use('/api/comments', commentRoute)
 async function start() {
     try {
         await mongoose.connect(
-            `mongodb+srv://eugene:eugenehfndf48@cluster0.0tz7zic.mongodb.net/blog-mern?retryWrites=true&w=majority`,
+            `mongodb+srv://eugenehfndf48:eugenehfndf48@cluster0.eoyjb8f.mongodb.net/blog-mern?retryWrites=true&w=majority`,
         )
 
         app.listen(3002, () => console.log(`Server started on port: ${3002}`))
